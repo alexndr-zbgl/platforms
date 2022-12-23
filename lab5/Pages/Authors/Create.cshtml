@@ -1,0 +1,23 @@
+﻿@page
+@model lab5.Pages.Authors.Create
+
+<h1>Add new Author</h1>
+<form method="post">
+  <div class="form-group row">
+	  <label>First Name</label>
+	  <div class="col-sm-10">
+		  <input asp-for="author.FirstName" />
+		  <span asp-validation-for="author.FirstName"></span>
+	  </div>
+  </div>
+  <div class="form-group row">
+		<label>Last Name</label>
+		<div class="col-sm-10">
+			<input asp-for="author.LastName" />
+			<span asp-validation-for="author.LastName"></span>
+		</div>
+  </div>
+  <div class="col-sm-10 pt-2">
+	  <button type="submit">Add person</button>
+  </div>
+</form>
