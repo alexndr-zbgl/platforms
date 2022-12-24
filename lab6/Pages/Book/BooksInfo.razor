@@ -1,0 +1,54 @@
+﻿@page "/books"
+@using lab6.Data
+@using lab6.Services
+@inject BookService bookService
+@if (bookService.books == null)
+{
+    <h3>No books :(</h3>
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-center pb-2">
+        <h1>Books</h1>
+        <a href="/book" class="btn btn-success">Add book</a>
+    </div>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Author</th>
+                <th scope="col">Price</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in bookService.books)
+            {
+                <tr>
+                    <th scope="row">
+                        @book.Name
+                    </th>
+                    <td>
+                        @book.Author
+                    </td>
+                    <td>
+                        @book.Price
+                    </td>
+                    <td>
+                        <a href="/book/edit/@book.Id" class="btn btn-secondary">Edit book</a>
+                    </td>
+                    <td>
+                        <a href="/book/delete/@book.Id" class="btn btn-danger">Delete book</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await bookService.GetBooks();
+    }
+}

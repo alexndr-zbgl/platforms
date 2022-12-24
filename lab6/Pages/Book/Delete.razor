@@ -1,0 +1,48 @@
+﻿@page "/book/delete/{id:int}"
+@using lab6.Data
+@using lab6.Services
+@inject BookService bookService
+@inject NavigationManager navigationManager
+<h1>Delete book</h1>
+<EditForm Model="book" OnSubmit="DeleteBook">
+	<InputNumber @bind-Value="book.Id" hidden />
+	<div class="form-group row">
+		<label>Name</label>
+		<div class="col-sm-10">
+			<InputText @bind-Value="book.Name" disabled />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label>Author</label>
+		<div class="col-sm-10">
+			<InputText @bind-Value="book.Author.LastName" disabled />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label>Price</label>
+		<div class="col-sm-10">
+			<InputNumber @bind-Value="book.Price" disabled />
+		</div>
+	</div>
+	<div class="col-sm-10 pt-2">
+		<button type="submit">Delete book</button>
+	</div>
+</EditForm>
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+	Book book = new Book();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Id != null)
+		{
+			book = await bookService.GetBook((int)Id);
+		}
+	}
+	public async Task DeleteBook()
+	{
+		await bookService.Delete(book.Id);
+		navigationManager.NavigateTo("/books");
+	}
+}

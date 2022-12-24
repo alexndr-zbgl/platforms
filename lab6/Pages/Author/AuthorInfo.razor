@@ -1,0 +1,41 @@
+﻿@page "/authors"
+@using lab6.Data
+@using lab6.Services
+@inject AuthorService authorService
+<div class="d-flex justify-content-between align-items-center pb-2">
+    <h1>Authors</h1>
+    <a href="/author" class="btn btn-success">Add Author</a>
+</div>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in authorService.authors)
+        {
+            <tr>
+                <th scope="row">@author.FirstName</th>
+                <td>@author.LastName</td>
+                <td>
+                    <a href="author/edit/@author.ID" class="btn btn-secondary">Edit author</a>
+                </td>
+                <td>
+                    <a href="author/delete/@author.ID" class="btn btn-danger">Delete author</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await authorService.GetAuthors();
+    }
+}
